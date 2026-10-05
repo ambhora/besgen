@@ -1,0 +1,10 @@
+site_name: cmake-example
+docs_dir: web/content
+site_dir: web/site
+theme:
+  name: materialx
+  custom_dir: web/override
+plugins:
+  - cpdocs:
+      config: api/cpdocs.yml
+      mount: reference/api

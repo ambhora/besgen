@@ -1,0 +1,10 @@
+site_name: besgen
+docs_dir: web/content
+site_dir: web/site
+theme:
+  name: materialx
+  custom_dir: web/override
+plugins:
+  - cpdocs:
+      config: cpdocs.yml
+      mount: reference/api

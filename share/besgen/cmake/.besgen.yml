@@ -1,0 +1,5 @@
+project: __PROJECT__
+template: __TEMPLATE__
+languages:
+  - cpp
+ci: __CI__

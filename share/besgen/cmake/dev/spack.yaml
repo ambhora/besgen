@@ -1,0 +1,7 @@
+spack:
+  specs:
+    - __PROJECT__-dev+test
+  repos:
+    - ./share/spack
+  concretizer:
+    unify: true

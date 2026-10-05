@@ -1,0 +1,8 @@
+{
+  "besgen": "api/besgen/",
+  "besgen.cli": "api/besgen/cli/",
+  "besgen.cli.main": "api/besgen/cli/function-main/",
+  "besgen.cli.new": "api/besgen/cli/function-new/",
+  "besgen.generator": "api/besgen/generator/",
+  "besgen.generator.generate": "api/besgen/generator/function-generate/"
+}

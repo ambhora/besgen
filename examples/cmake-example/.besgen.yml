@@ -1,0 +1,5 @@
+project: cmake-example
+template: cmake
+languages:
+- cpp
+- fortran

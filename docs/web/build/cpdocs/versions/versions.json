@@ -1,0 +1,29 @@
+{
+  "default": "main",
+  "versions": [
+    {
+      "name": "main",
+      "kind": "branch",
+      "url": "main/",
+      "pages": [
+        "_sources/src/besgen/__init__.py/index.html",
+        "_sources/src/besgen/cli.py/index.html",
+        "_sources/src/besgen/generator.py/index.html",
+        "_symbols/besgen/cli/index.html",
+        "_symbols/besgen/cli/main/index.html",
+        "_symbols/besgen/cli/new/index.html",
+        "_symbols/besgen/generator/generate/index.html",
+        "_symbols/besgen/generator/index.html",
+        "_symbols/besgen/index.html",
+        "api/besgen/cli/function-main/index.html",
+        "api/besgen/cli/function-new/index.html",
+        "api/besgen/cli/index.html",
+        "api/besgen/generator/function-generate/index.html",
+        "api/besgen/generator/index.html",
+        "api/besgen/index.html",
+        "feature-sets/index.html",
+        "index.html"
+      ]
+    }
+  ]
+}

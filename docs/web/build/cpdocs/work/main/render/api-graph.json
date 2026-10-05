@@ -1,0 +1,281 @@
+{
+  "entities": {
+    "python:function:besgen.cli.main": {
+      "aliases": [],
+      "bases": [],
+      "children": [],
+      "declaration": "",
+      "documentation": "Generate project repositories.",
+      "feature_sets": [
+        "feature-set-001"
+      ],
+      "id": "python:function:besgen.cli.main",
+      "kind": "function",
+      "language": "python",
+      "name": "main",
+      "parent": "python:module:besgen.cli",
+      "properties": [],
+      "qualified_name": "besgen.cli.main",
+      "related": [],
+      "signature_feature_sets": [
+        [
+          "feature-set-001"
+        ]
+      ],
+      "signatures": [
+        {
+          "documentation": "",
+          "parameters": [],
+          "qualifiers": [],
+          "returns": "None",
+          "source": null,
+          "spelling": "",
+          "template": ""
+        }
+      ],
+      "source": {
+        "column": 1,
+        "line": 8,
+        "path": "src/besgen/cli.py"
+      },
+      "template": ""
+    },
+    "python:function:besgen.cli.new": {
+      "aliases": [],
+      "bases": [],
+      "children": [],
+      "declaration": "",
+      "documentation": "Create project NAME in DIRECTORY.",
+      "feature_sets": [
+        "feature-set-001"
+      ],
+      "id": "python:function:besgen.cli.new",
+      "kind": "function",
+      "language": "python",
+      "name": "new",
+      "parent": "python:module:besgen.cli",
+      "properties": [],
+      "qualified_name": "besgen.cli.new",
+      "related": [],
+      "signature_feature_sets": [
+        [
+          "feature-set-001"
+        ]
+      ],
+      "signatures": [
+        {
+          "documentation": "",
+          "parameters": [
+            {
+              "default": null,
+              "kind": "positional",
+              "name": "name",
+              "type": "str"
+            },
+            {
+              "default": null,
+              "kind": "positional",
+              "name": "directory",
+              "type": "Path"
+            },
+            {
+              "default": null,
+              "kind": "positional",
+              "name": "template_name",
+              "type": "str"
+            }
+          ],
+          "qualifiers": [],
+          "returns": "None",
+          "source": null,
+          "spelling": "",
+          "template": ""
+        }
+      ],
+      "source": {
+        "column": 1,
+        "line": 21,
+        "path": "src/besgen/cli.py"
+      },
+      "template": ""
+    },
+    "python:function:besgen.generator.generate": {
+      "aliases": [],
+      "bases": [],
+      "children": [],
+      "declaration": "",
+      "documentation": "",
+      "feature_sets": [
+        "feature-set-001"
+      ],
+      "id": "python:function:besgen.generator.generate",
+      "kind": "function",
+      "language": "python",
+      "name": "generate",
+      "parent": "python:module:besgen.generator",
+      "properties": [],
+      "qualified_name": "besgen.generator.generate",
+      "related": [],
+      "signature_feature_sets": [
+        [
+          "feature-set-001"
+        ]
+      ],
+      "signatures": [
+        {
+          "documentation": "",
+          "parameters": [
+            {
+              "default": null,
+              "kind": "positional",
+              "name": "directory",
+              "type": "Path"
+            },
+            {
+              "default": null,
+              "kind": "positional",
+              "name": "name",
+              "type": "str"
+            },
+            {
+              "default": null,
+              "kind": "positional",
+              "name": "template_name",
+              "type": "str"
+            }
+          ],
+          "qualifiers": [],
+          "returns": "None",
+          "source": null,
+          "spelling": "",
+          "template": ""
+        }
+      ],
+      "source": {
+        "column": 1,
+        "line": 33,
+        "path": "src/besgen/generator.py"
+      },
+      "template": ""
+    },
+    "python:module:besgen.cli": {
+      "aliases": [],
+      "bases": [],
+      "children": [
+        "python:function:besgen.cli.main",
+        "python:function:besgen.cli.new"
+      ],
+      "declaration": "",
+      "documentation": "",
+      "feature_sets": [
+        "feature-set-001"
+      ],
+      "id": "python:module:besgen.cli",
+      "kind": "module",
+      "language": "python",
+      "name": "cli",
+      "parent": "python:package:besgen",
+      "properties": [],
+      "qualified_name": "besgen.cli",
+      "related": [],
+      "signature_feature_sets": [],
+      "signatures": [],
+      "source": {
+        "column": 1,
+        "line": 1,
+        "path": "src/besgen/cli.py"
+      },
+      "template": ""
+    },
+    "python:module:besgen.generator": {
+      "aliases": [],
+      "bases": [],
+      "children": [
+        "python:function:besgen.generator.generate"
+      ],
+      "declaration": "",
+      "documentation": "",
+      "feature_sets": [
+        "feature-set-001"
+      ],
+      "id": "python:module:besgen.generator",
+      "kind": "module",
+      "language": "python",
+      "name": "generator",
+      "parent": "python:package:besgen",
+      "properties": [],
+      "qualified_name": "besgen.generator",
+      "related": [],
+      "signature_feature_sets": [],
+      "signatures": [],
+      "source": {
+        "column": 1,
+        "line": 1,
+        "path": "src/besgen/generator.py"
+      },
+      "template": ""
+    },
+    "python:package:besgen": {
+      "aliases": [],
+      "bases": [],
+      "children": [
+        "python:module:besgen.cli",
+        "python:module:besgen.generator"
+      ],
+      "declaration": "",
+      "documentation": "",
+      "feature_sets": [
+        "feature-set-001"
+      ],
+      "id": "python:package:besgen",
+      "kind": "package",
+      "language": "python",
+      "name": "besgen",
+      "parent": null,
+      "properties": [],
+      "qualified_name": "besgen",
+      "related": [],
+      "signature_feature_sets": [],
+      "signatures": [],
+      "source": {
+        "column": 1,
+        "line": 1,
+        "path": "src/besgen/__init__.py"
+      },
+      "template": ""
+    }
+  },
+  "feature_sets": {
+    "feature-set-001": {
+      "features": [],
+      "selection": {
+        "features": []
+      }
+    }
+  },
+  "files": {},
+  "language": "python",
+  "metadata": {
+    "feature_sets": [
+      {
+        "features": []
+      }
+    ],
+    "generator": "cpdocs manifest python",
+    "project_version": "0.2.0",
+    "source_root": "src",
+    "units": [
+      {
+        "id": "besgen",
+        "language": "python"
+      }
+    ]
+  },
+  "project": "besgen",
+  "sources": {
+    "src/besgen/__init__.py": "__version__ = \"0.2.0\"\n",
+    "src/besgen/cli.py": "from pathlib import Path\nimport click\n\nfrom .generator import generate\n\n\n@click.group()\ndef main() -> None:\n    \"\"\"Generate project repositories.\"\"\"\n\n\n@main.command()\n@click.argument(\"name\")\n@click.argument(\"directory\", type=click.Path(path_type=Path))\n@click.option(\n    \"--template\",\n    \"template_name\",\n    type=click.Choice([\"cmake\", \"python\", \"cargo\"]),\n    required=True,\n)\ndef new(name: str, directory: Path, template_name: str) -> None:\n    \"\"\"Create project NAME in DIRECTORY.\"\"\"\n    generate(directory, name, template_name)\n",
+    "src/besgen/generator.py": "from __future__ import annotations\n\nfrom importlib.resources import files\nfrom pathlib import Path\nimport re\n\n\ndef _module(name: str) -> str:\n    return re.sub(r\"[^A-Za-z0-9_]+\", \"_\", name).strip(\"_\").lower()\n\n\ndef _write(path: Path, text: str) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    path.write_text(text.rstrip() + \"\\n\", encoding=\"utf-8\")\n\n\ndef _copy_tree(source, destination: Path, replacements: dict[str, str]) -> None:\n    destination.mkdir(parents=True, exist_ok=True)\n    for entry in source.iterdir():\n        name = entry.name\n        for old, new in replacements.items():\n            name = name.replace(old, new)\n        target = destination / name\n        if entry.is_dir():\n            _copy_tree(entry, target, replacements)\n        else:\n            text = entry.read_text(encoding=\"utf-8\")\n            for old, new in replacements.items():\n                text = text.replace(old, new)\n            _write(target, text)\n\n\ndef generate(directory: Path, name: str, template_name: str) -> None:\n    if directory.exists() and any(directory.iterdir()):\n        raise FileExistsError(f\"{directory} exists and is not empty\")\n    directory.mkdir(parents=True, exist_ok=True)\n\n    module = _module(name)\n    replacements = {\n        \"__PROJECT__\": name,\n        \"__MODULE__\": module,\n        \"__DEV_MODULE__\": f\"{module}_dev\",\n        \"__TEMPLATE__\": template_name,\n    }\n\n    share = files(\"besgen\").joinpath(\"../../share/besgen\").resolve()\n    _copy_tree(share / \"common\", directory, replacements)\n    _copy_tree(share / template_name, directory, replacements)\n    _copy_tree(share / \"dev\", directory / \"dev\", replacements)\n"
+  },
+  "version": "main"
+}

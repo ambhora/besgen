@@ -1,0 +1,1 @@
+$ /home/work/ambhora/software/besgen/main/.venv/bin/python -m cpdocs manifest python feature-sets --source /home/work/ambhora/software/besgen/main --output /home/work/ambhora/software/besgen/main/docs/web/build/cpdocs/work/main/feature-sets/feature-sets.json

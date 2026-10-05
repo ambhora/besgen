@@ -1,0 +1,41 @@
+name: Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v9.0.0
+      - run: uv sync --group docs
+      - name: Generate example repositories
+        run: uv run python tools/generate_examples.py --output examples --clean --verify
+      - name: Build site and cpdocs API reference
+        run: uv run --group docs properdocs build --strict --config-file docs/properdocs.yml
+      - name: Add generated repositories to Pages artifact
+        run: |
+          cp -a examples/. docs/web/site/examples/
+          uv run python tools/index_examples.py docs/web/site/examples --preserve-root-index
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs/web/site
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

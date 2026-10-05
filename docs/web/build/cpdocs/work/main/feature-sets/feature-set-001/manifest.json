@@ -1,0 +1,15 @@
+{
+  "cpdocs-manifest": 1,
+  "units": [
+    {
+      "id": "besgen",
+      "language": "python",
+      "package": "besgen",
+      "api": [
+        {
+          "path": "src/besgen"
+        }
+      ]
+    }
+  ]
+}

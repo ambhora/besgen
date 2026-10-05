@@ -1,0 +1,12 @@
+default:
+  image: ghcr.io/astral-sh/uv:python3.13-bookworm-slim
+
+create-pages:
+  stage: deploy
+  script:
+    - uv run --project docs properdocs build --strict --config-file docs/properdocs.yml
+  pages:
+    publish: docs/web/site
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  environment: production

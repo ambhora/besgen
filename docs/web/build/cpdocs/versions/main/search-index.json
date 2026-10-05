@@ -1,0 +1,38 @@
+[
+  {
+    "label": "besgen",
+    "qualified": "besgen",
+    "kind": "package",
+    "url": "api/besgen/"
+  },
+  {
+    "label": "cli",
+    "qualified": "besgen.cli",
+    "kind": "module",
+    "url": "api/besgen/cli/"
+  },
+  {
+    "label": "main()",
+    "qualified": "besgen.cli.main",
+    "kind": "function",
+    "url": "api/besgen/cli/function-main/"
+  },
+  {
+    "label": "new()",
+    "qualified": "besgen.cli.new",
+    "kind": "function",
+    "url": "api/besgen/cli/function-new/"
+  },
+  {
+    "label": "generator",
+    "qualified": "besgen.generator",
+    "kind": "module",
+    "url": "api/besgen/generator/"
+  },
+  {
+    "label": "generate()",
+    "qualified": "besgen.generator.generate",
+    "kind": "function",
+    "url": "api/besgen/generator/function-generate/"
+  }
+]

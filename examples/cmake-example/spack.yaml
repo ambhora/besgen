@@ -1,0 +1,7 @@
+spack:
+  specs:
+  - cmake-example
+  - mpi
+  - 'hdf5@1.14:'
+  concretizer:
+    unify: true

@@ -1,0 +1,12 @@
+contract: 3
+
+build:
+  feature-sets: >-
+    {{python}} -m cpdocs rust feature-sets
+    --source {{source}}
+    --output {{output-file}}
+  build: >-
+    {{python}} -m cpdocs rust build
+    --source {{source}}
+    --feature-set {{feature-set}}
+    --output {{output-file}}

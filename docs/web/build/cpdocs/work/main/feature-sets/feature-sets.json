@@ -1,0 +1,13 @@
+{
+  "cpdocs-feature-sets": 1,
+  "generator": "cpdocs manifest python",
+  "project": {
+    "name": "besgen",
+    "version": "0.2.0"
+  },
+  "feature-sets": [
+    {
+      "features": []
+    }
+  ]
+}

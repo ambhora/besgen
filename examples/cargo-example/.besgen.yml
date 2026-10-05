@@ -1,0 +1,3 @@
+project: cargo-example
+template: cargo
+languages: []
