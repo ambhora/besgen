@@ -1,3 +1,7 @@
+# --------------------------------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 besgen developers
+# --------------------------------------------------------------------------------------------------
 from __future__ import annotations
 
 from importlib.resources import files
@@ -46,6 +50,7 @@ def generate(directory: Path, name: str, template_name: str, ci_name: str = "non
     replacements = {
         "__PROJECT__": name,
         "__MODULE__": module,
+        "__MODULE_UPPER__": module.upper(),
         "__DEV_MODULE__": f"{module}_dev",
         "__PROJECT_CLASS__": _project_class(name),
         "__TEMPLATE__": template_name,
@@ -56,6 +61,14 @@ def generate(directory: Path, name: str, template_name: str, ci_name: str = "non
     _copy_tree(share / "common", directory, replacements)
     _copy_tree(share / template_name, directory, replacements)
     _copy_tree(share / "dev", directory / "dev", replacements)
+    (directory / "dev" / ".gitignore").write_text(
+        "# --------------------------------------------------------------------------------------------------\n"
+        "# SPDX-License-Identifier: Apache-2.0\n"
+        f"# SPDX-FileCopyrightText: 2026 {name} developers\n"
+        "# --------------------------------------------------------------------------------------------------\n"
+        "__pycache__/\n",
+        encoding="utf-8",
+    )
 
     if template_name == "cmake":
         subprocess.run(

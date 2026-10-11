@@ -1,3 +1,9 @@
+<!--
+--------------------------------------------------------------------------------------------------
+SPDX-License-Identifier: Apache-2.0
+SPDX-FileCopyrightText: 2026 besgen developers
+--------------------------------------------------------------------------------------------------
+-->
 # Generated examples
 
 CI and the Pages workflow generate and exercise three repositories:

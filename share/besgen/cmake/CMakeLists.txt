@@ -1,20 +1,22 @@
-cmake_minimum_required(VERSION 3.25)
+# --------------------------------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 __PROJECT__ developers
+# --------------------------------------------------------------------------------------------------
+cmake_minimum_required(VERSION 4.3)
 project(__PROJECT__ VERSION 0.1.0 LANGUAGES NONE)
 
-include(CTest)
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/besa/besaConfig.cmake")
-include(cmake/features.cmake)
+# The vendored BESA package is made discoverable without using CMAKE_MODULE_PATH.
+list(PREPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/besa")
+find_package(besa CONFIG REQUIRED)
+
+include(cmake/options.cmake)
 include(cmake/external.cmake)
+include(CTest)
 
-besa_configure_complete()
-
-besa_add_subdirectory(DIRECTORY src/cpp TYPE cpp)
+if(BUILD_SOURCE)
+  besa_add_subdirectory(DIRECTORY src/cpp TYPE cpp)
+endif()
 
 if(BUILD_TESTING)
-  besa_test_add_directory(
-    NAME tests/unit
-    PREFIX __PROJECT__
-    TARGET_LIST __PROJECT__::lib__PROJECT__
-    LABELS unit
-  )
+  add_subdirectory(test)
 endif()

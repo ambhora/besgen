@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# --------------------------------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 besgen developers
+# --------------------------------------------------------------------------------------------------
 """Create simple browsable indexes for generated example repositories."""
 
 from __future__ import annotations

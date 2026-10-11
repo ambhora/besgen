@@ -1,3 +1,7 @@
+# --------------------------------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 besgen developers
+# --------------------------------------------------------------------------------------------------
 from pathlib import Path
 from click.testing import CliRunner
 from unittest.mock import patch
@@ -22,19 +26,27 @@ def test_directory_after_option(tmp_path: Path):
 
     cmake = (out / "CMakeLists.txt").read_text()
     assert "project(foo VERSION 0.1.0 LANGUAGES NONE)" in cmake
-    assert "besa_configure_complete()" in cmake
+    assert "besa_finalize_options()" in (out / "cmake/options.cmake").read_text()
     assert "besa_add_subdirectory(DIRECTORY src/cpp TYPE cpp)" in cmake
-    assert "besa_test_add_directory(" in cmake
-    assert "NAME tests/unit" in cmake
-    assert "TARGET_LIST foo::libfoo" in cmake
+    assert "add_subdirectory(test)" in cmake
+    assert "besa_test_add_directory(" in (out / "test/CMakeLists.txt").read_text()
+    assert "NAME unit" in (out / "test/CMakeLists.txt").read_text()
+    assert "TARGET_LIST foo::libtestfoo" in (out / "test/CMakeLists.txt").read_text()
+    assert "INSTALL FALSE" in (out / "test/CMakeLists.txt").read_text()
     assert "CMAKE_CXX_STANDARD" not in cmake
-    assert 'include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/besa/besaConfig.cmake")' in cmake
-    assert "find_package(besa" not in cmake
+    assert "find_package(besa CONFIG REQUIRED)" in cmake
+    assert "cmake_minimum_required(VERSION 4.3)" in cmake
 
-    assert (out / "src/cpp/include/foo/foo.hpp").is_file()
+    assert (out / "src/cpp/include/foo/foo.hh").is_file()
+    assert "#ifndef FOO_HH" in (out / "src/cpp/include/foo/foo.hh").read_text()
     assert (out / "src/cpp/lib/foo/foo.cpp").is_file()
-    assert (out / "tests/unit/foo.t.cpp").is_file()
+    assert (out / "test/unit/foo.t.cpp").is_file()
     assert not (out / "tests/foo.t.cpp").exists()
+    assert "__pycache__/" in (out / "dev/.gitignore").read_text()
+    assert not list(out.rglob(".gitkeep"))
+    assert "BUILD_DEVTOOLS" in (out / "cmake/options.cmake").read_text()
+    assert "BUILD_WARNINGS" in (out / "cmake/options.cmake").read_text()
+    assert "PROJECT_SHOWCASE" not in (out / "cmake/options.cmake").read_text()
     assert not (out / "include").exists()
     assert not (out / "src/cpp/foo.cpp").exists()
 

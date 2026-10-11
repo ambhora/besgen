@@ -1,3 +1,7 @@
+# --------------------------------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 besgen developers
+# --------------------------------------------------------------------------------------------------
 from __future__ import annotations
 
 from pathlib import Path
@@ -129,7 +133,17 @@ def feature_add(name: str) -> None:
         raise click.ClickException(
             "feature editing for this template is not implemented yet"
         )
-    append_unique(ROOT / "cmake/features.cmake", f'besa_add_feature("{name}")')
+    path = ROOT / "cmake/options.cmake"
+    source = path.read_text(encoding="utf-8")
+    declaration = f'besa_add_feature("{name}")'
+    if declaration in source:
+        return
+    marker = "# BUILD OPTIONS"
+    if marker not in source:
+        raise click.ClickException("cmake/options.cmake has no feature section")
+    at = source.index(marker)
+    at = source.rfind("# ---", 0, at)
+    path.write_text(source[:at] + declaration + "\n\n" + source[at:], encoding="utf-8")
 
 
 @main.group()

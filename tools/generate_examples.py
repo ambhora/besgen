@@ -1,3 +1,7 @@
+# --------------------------------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 besgen developers
+# --------------------------------------------------------------------------------------------------
 from __future__ import annotations
 import argparse, os, shutil, subprocess
 from pathlib import Path
@@ -18,7 +22,7 @@ def generate(root: Path, name: str, template: str, ci: str = "none") -> Path:
 def verify_cmake(project: Path) -> None:
     cmake = (project / "CMakeLists.txt").read_text()
     external = (project / "cmake/external.cmake").read_text()
-    features = (project / "cmake/features.cmake").read_text()
+    features = (project / "cmake/options.cmake").read_text()
     assert "LANGUAGES CXX Fortran" in cmake
     assert 'besa_add_feature("mpi")' in features
     assert 'besa_add_feature("cuda")' in features

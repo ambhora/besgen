@@ -1,4 +1,8 @@
-#include <__MODULE__/__MODULE__.hpp>
+// --------------------------------------------------------------------------------------------------
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 __PROJECT__ developers
+// --------------------------------------------------------------------------------------------------
+#include <__MODULE__/__MODULE__.hh>
 
 #include <string>
 

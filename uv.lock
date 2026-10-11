@@ -26,11 +26,11 @@ wheels = [
 
 [[package]]
 name = "besa"
-version = "0.4.0"
+version = "0.4.3"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/19/d5/5dcb438974eb60447ed2d3e730f1fcbc436c26ffa2a174add4e9319710a7/besa-0.4.0.tar.gz", hash = "sha256:5829b295f0e373f7959786c1909716cf59479e502dec20e257bfab5f087af3ca", size = 60280, upload-time = "2026-10-05T21:59:35.461Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/96/a8/aa2579b4d15b19c7eb133cf23c9f25bb55de41d01995843991925d1b51ca/besa-0.4.3.tar.gz", hash = "sha256:496b67d8d15d6feeecce8c259c641dced375b0875815f30a3c24e0333dfa7b50", size = 60742, upload-time = "2026-10-07T20:15:44.148Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e7/8e/bbd15058aae1c9303f3f463f7eb6bec565ca12856fe5abb5d05e3e8cc4bb/besa-0.4.0-py3-none-any.whl", hash = "sha256:6020949e40aca99464093b773fea3804efe44e64d7bad74f044f928ff7fab4f8", size = 45398, upload-time = "2026-10-05T21:59:36.501Z" },
+    { url = "https://files.pythonhosted.org/packages/bc/75/705348fbfa0edc0519b9add98f5992902ac68c17f8bb59c4601108456390/besa-0.4.3-py3-none-any.whl", hash = "sha256:0ec730221a491886988c28c5f475f97d3957508ff13010744e04dc1b1a09e7de", size = 45554, upload-time = "2026-10-07T20:15:45.202Z" },
 ]
 
 [[package]]
@@ -248,16 +248,16 @@ wheels = [
 
 [[package]]
 name = "cpdocs"
-version = "0.2.0"
+version = "0.3.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markdown-it-py" },
     { name = "pygments" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4d/5f/95b08d92205019ff061ce1fde06911ff8ec87a1df642c7448845643e36b5/cpdocs-0.2.0.tar.gz", hash = "sha256:61dd7b0392520bceee43d3051497d2fbb0063c42b85d14601a68f1155eb5db82", size = 156153, upload-time = "2026-10-04T18:56:53.14Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8e/f6/da2b626382dd440c5beca12cc68a82a9b91c2a2c9cdce1595bc350322656/cpdocs-0.3.2.tar.gz", hash = "sha256:de50b610aa95fc99e79170edf2a263e7a2f627e1a52076df127357c6d0237d06", size = 159293, upload-time = "2026-10-07T19:51:04.504Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ff/c5/23746182d2b3c99647f9bfda8e5bb0724051ea9d43c535619c0c1a2c8267/cpdocs-0.2.0-py3-none-any.whl", hash = "sha256:7062fb190a1e909666d7d1c5c58450706eeb5944d4c8113601c395b25269c9b8", size = 82110, upload-time = "2026-10-04T18:56:54.566Z" },
+    { url = "https://files.pythonhosted.org/packages/6a/11/f7b08dee441144267eac8763c49f362ba8154a1a6fd17c7458f6181500d9/cpdocs-0.3.2-py3-none-any.whl", hash = "sha256:92c794d204f7941cdaca8f32aefda05fbab931c046ae8870ada8da46c7fe01c0", size = 91991, upload-time = "2026-10-07T19:51:05.686Z" },
 ]
 
 [[package]]
@@ -283,11 +283,11 @@ wheels = [
 
 [[package]]
 name = "iniconfig"
-version = "2.3.0"
+version = "2.3.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/72/34/14ca021ce8e5dfedc35312d08ba8bf51fdd999c576889fc2c24cb97f4f10/iniconfig-2.3.0.tar.gz", hash = "sha256:c76315c77db068650d49c5b56314774a7804df16fee4402c1f19d6d15d8c4730", size = 20503, upload-time = "2025-10-18T21:55:43.219Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/01/e1/2069291243c926a2ff1cd706c7f3eeb9b62144bf60f77c9fb9ff2fb26bd3/iniconfig-2.3.1.tar.gz", hash = "sha256:67f4b9c50da0dedf52af349e7749a80a9057a5031199791b906c3bb3ae878960", size = 21209, upload-time = "2026-10-06T22:48:38.076Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/b1/3846dd7f199d53cb17f49cba7e651e9ce294d8497c8c150530ed11865bb8/iniconfig-2.3.0-py3-none-any.whl", hash = "sha256:f631c04d2c48c52b84d0d0549c99ff3859c98df65b3101406327ecc7d53fbf12", size = 7484, upload-time = "2025-10-18T21:55:41.639Z" },
+    { url = "https://files.pythonhosted.org/packages/56/43/4ca9e49d27a1fcf6bece6f6aec0ea46bb9112489b93d4b688fb415457bdb/iniconfig-2.3.1-py3-none-any.whl", hash = "sha256:9121e2c1fdb355232495be3194c8dfe87ccc2d5dee45947b78e68f499790d7a7", size = 7552, upload-time = "2026-10-06T22:48:36.959Z" },
 ]
 
 [[package]]

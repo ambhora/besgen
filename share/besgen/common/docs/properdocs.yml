@@ -1,9 +1,12 @@
+# --------------------------------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 __PROJECT__ developers
+# --------------------------------------------------------------------------------------------------
 site_name: __PROJECT__
 docs_dir: web/content
 site_dir: web/site
 theme:
   name: materialx
-  custom_dir: web/override
 plugins:
   - cpdocs:
       config: api/cpdocs.yml

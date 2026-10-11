@@ -3,5 +3,5 @@ version = 1
 [[annotations]]
 path = ["**"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2026 project developers"
+SPDX-FileCopyrightText = "2026 __PROJECT__ developers"
 SPDX-License-Identifier = "Apache-2.0"

@@ -1,9 +1,12 @@
+# --------------------------------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 besgen developers
+# --------------------------------------------------------------------------------------------------
 site_name: besgen
 docs_dir: web/content
 site_dir: web/site
 theme:
   name: materialx
-  custom_dir: web/override
 plugins:
   - cpdocs:
       config: cpdocs.yml

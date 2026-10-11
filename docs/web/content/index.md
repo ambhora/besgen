@@ -1,3 +1,9 @@
+<!--
+--------------------------------------------------------------------------------------------------
+SPDX-License-Identifier: Apache-2.0
+SPDX-FileCopyrightText: 2026 besgen developers
+--------------------------------------------------------------------------------------------------
+-->
 # besgen
 
 `besgen` generates convention-oriented CMake/BESA, Python, and Cargo repositories.
