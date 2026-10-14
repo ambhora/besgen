@@ -8,7 +8,7 @@
 set(PROJECT_FEATURE "none" CACHE STRING "Selected project features")
 besa_set_feature_variable(PROJECT_FEATURE)
 # Declare supported features with besa_add_feature(name); all combinations are valid by default.
-# Optional src/cpp/module/*.cppm interfaces are picked up automatically by besa.
+# A C++ module/ directory is optional; only place compilable module sources in it.
 # besa_features_conflict(mpi gpu)
 
 # --------------------------------------------------------------------------------------------------

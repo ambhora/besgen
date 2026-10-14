@@ -14,7 +14,7 @@ include(cmake/external.cmake)
 include(CTest)
 
 if(BUILD_SOURCE)
-  besa_add_subdirectory(DIRECTORY src/cpp TYPE cpp)
+  add_subdirectory(src)
 endif()
 
 if(BUILD_TESTING)

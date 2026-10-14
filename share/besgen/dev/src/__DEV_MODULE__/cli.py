@@ -5,21 +5,15 @@
 from __future__ import annotations
 
 from pathlib import Path
-import re
-
 import click
 import yaml
 
 ROOT = Path(__file__).resolve().parents[3]
 CONFIG = ROOT / ".besgen.yml"
 
-LANGUAGES = {
-    "c": "C",
-    "cpp": "CXX",
-    "fortran": "Fortran",
-    "cuda": "CUDA",
-    "hip": "HIP",
-}
+# Besa semantic source types. The declared TYPE, not the project() LANGUAGES
+# list, determines which compiler language is enabled for library directories.
+LANGUAGES = ("c", "cpp", "fortran", "cuda", "hip")
 
 
 def config() -> dict:
@@ -46,17 +40,18 @@ def add_spack_spec(spec: str) -> None:
         path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
 
 
-def replace_cmake_languages(languages: list[str]) -> None:
-    path = ROOT / "CMakeLists.txt"
-    text = path.read_text(encoding="utf-8")
-    rendered = " ".join(LANGUAGES[x] for x in languages) if languages else "NONE"
-    text = re.sub(
-        r"(project\([^\\n]*?LANGUAGES)\s+[^)]*",
-        rf"\1 {rendered}",
-        text,
-        count=1,
+def register_source_language(name: str) -> None:
+    """Attach a source tree using Besa's declared semantic source type."""
+    path = ROOT / "src" / "CMakeLists.txt"
+    declaration = (
+        f'besa_add_directory(LIBRARY lib__PROJECT__ ROOT "${{CMAKE_CURRENT_SOURCE_DIR}}/{name}" TYPE {name})'
     )
-    path.write_text(text, encoding="utf-8")
+    # __PROJECT__ is replaced when the project is generated.
+    if not path.exists():
+        raise click.ClickException("src/CMakeLists.txt is missing")
+    source = path.read_text(encoding="utf-8")
+    if declaration not in source.splitlines():
+        path.write_text(source.rstrip() + "\n" + declaration + "\n", encoding="utf-8")
 
 
 @click.group()
@@ -80,7 +75,7 @@ def language_add(name: str) -> None:
         languages.append(name)
         save_config(data)
         (ROOT / "src" / name).mkdir(parents=True, exist_ok=True)
-        replace_cmake_languages(languages)
+        register_source_language(name)
 
 
 @main.group()

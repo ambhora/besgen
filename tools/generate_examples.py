@@ -23,7 +23,13 @@ def verify_cmake(project: Path) -> None:
     cmake = (project / "CMakeLists.txt").read_text()
     external = (project / "cmake/external.cmake").read_text()
     features = (project / "cmake/options.cmake").read_text()
-    assert "LANGUAGES CXX Fortran" in cmake
+    assert "LANGUAGES NONE" in cmake
+    assert "add_subdirectory(src)" in cmake
+    src_cmake = (project / "src/CMakeLists.txt").read_text()
+    assert "besa_add_library(NAME libcmake-example INSTALL YES)" in src_cmake
+    assert 'ROOT "${CMAKE_CURRENT_SOURCE_DIR}/cpp" TYPE cpp' in src_cmake
+    assert 'ROOT "${CMAKE_CURRENT_SOURCE_DIR}/fortran" TYPE fortran' in src_cmake
+    assert not (project / "cmake/sources.cmake").exists()
     assert 'besa_add_feature("mpi")' in features
     assert 'besa_add_feature("cuda")' in features
     assert "NAME MPI" in external and 'CONDITION "mpi"' in external

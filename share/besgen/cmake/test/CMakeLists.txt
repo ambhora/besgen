@@ -4,13 +4,9 @@
 # --------------------------------------------------------------------------------------------------
 find_package(Catch2 3 CONFIG REQUIRED)
 
-besa_add_library(
-  NAME libtest__PROJECT__
-  TYPE STATIC
-  INSTALL FALSE
-  SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/lib/test__MODULE__.cpp"
-  PUBLIC_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/include"
-)
+# This library belongs only to the test suite; production sources are optional.
+besa_add_library(NAME libtest__PROJECT__ TYPE STATIC INSTALL NO)
+besa_add_directory(LIBRARY libtest__PROJECT__ ROOT "${CMAKE_CURRENT_SOURCE_DIR}" TYPE cpp)
 
 besa_test_add_directory(
   NAME unit

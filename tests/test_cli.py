@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2026 besgen developers
 # --------------------------------------------------------------------------------------------------
 from pathlib import Path
+import importlib.util
 from click.testing import CliRunner
 from unittest.mock import patch
 
@@ -27,13 +28,22 @@ def test_directory_after_option(tmp_path: Path):
     cmake = (out / "CMakeLists.txt").read_text()
     assert "project(foo VERSION 0.1.0 LANGUAGES NONE)" in cmake
     assert "besa_finalize_options()" in (out / "cmake/options.cmake").read_text()
-    assert "besa_add_subdirectory(DIRECTORY src/cpp TYPE cpp)" in cmake
+    assert "add_subdirectory(src)" in cmake
+    src_cmake = (out / "src/CMakeLists.txt").read_text()
+    assert "besa_add_library(NAME libfoo INSTALL YES)" in src_cmake
+    assert 'besa_add_directory(LIBRARY libfoo ROOT "${CMAKE_CURRENT_SOURCE_DIR}/cpp" TYPE cpp)' in src_cmake
+    assert not (out / "cmake/sources.cmake").exists()
     assert "add_subdirectory(test)" in cmake
     assert "besa_test_add_directory(" in (out / "test/CMakeLists.txt").read_text()
     assert "NAME unit" in (out / "test/CMakeLists.txt").read_text()
     assert "TARGET_LIST foo::libtestfoo" in (out / "test/CMakeLists.txt").read_text()
-    assert "INSTALL FALSE" in (out / "test/CMakeLists.txt").read_text()
+    test_cmake = (out / "test/CMakeLists.txt").read_text()
+    assert "besa_add_library(NAME libtestfoo TYPE STATIC INSTALL NO)" in test_cmake
+    assert 'besa_add_directory(LIBRARY libtestfoo ROOT "${CMAKE_CURRENT_SOURCE_DIR}" TYPE cpp)' in test_cmake
+    assert "SOURCES " not in test_cmake
+    assert "PUBLIC_INCLUDE_DIRECTORIES" not in test_cmake
     assert "CMAKE_CXX_STANDARD" not in cmake
+    assert "target_compile_features" not in cmake
     assert "find_package(besa CONFIG REQUIRED)" in cmake
     assert "cmake_minimum_required(VERSION 4.3)" in cmake
 
@@ -41,6 +51,8 @@ def test_directory_after_option(tmp_path: Path):
     assert "#ifndef FOO_HH" in (out / "src/cpp/include/foo/foo.hh").read_text()
     assert (out / "src/cpp/lib/foo/foo.cpp").is_file()
     assert (out / "test/unit/foo.t.cpp").is_file()
+    assert not (out / "src/cpp/module/readme.md").exists()
+    assert (out / "src/cpp/readme.md").is_file()
     assert not (out / "tests/foo.t.cpp").exists()
     assert "__pycache__/" in (out / "dev/.gitignore").read_text()
     assert not list(out.rglob(".gitkeep"))
@@ -156,3 +168,31 @@ def test_nonempty_directory_is_reported_as_cli_error(tmp_path: Path):
     assert "Traceback" not in result.output
     assert f"Error: {out} exists and is not empty" in result.output
     assert (out / "existing.txt").read_text() == "keep me"
+
+
+def test_language_add_attaches_directory_without_changing_project_languages(tmp_path: Path):
+    out = tmp_path / "foo"
+    result, _ = _invoke(["new", "foo", "--template", "cmake", str(out)])
+    assert result.exit_code == 0, result.output
+
+    # Load the project's generated dev CLI without installing it.
+    cli_path = out / "dev/src/foo_dev/cli.py"
+    spec = importlib.util.spec_from_file_location("foo_generated_dev_cli", cli_path)
+    assert spec and spec.loader
+    generated_cli = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(generated_cli)
+
+    project_cmake_before = (out / "CMakeLists.txt").read_text()
+    for name in ("fortran", "fortran", "c"):
+        result = CliRunner().invoke(generated_cli.main, ["language", "add", name])
+        assert result.exit_code == 0, result.output
+
+    src_cmake = (out / "src/CMakeLists.txt").read_text()
+    assert src_cmake.count('ROOT "${CMAKE_CURRENT_SOURCE_DIR}/fortran" TYPE fortran') == 1
+    assert src_cmake.count('ROOT "${CMAKE_CURRENT_SOURCE_DIR}/c" TYPE c') == 1
+    assert src_cmake.count('ROOT "${CMAKE_CURRENT_SOURCE_DIR}/cpp" TYPE cpp') == 1
+    assert src_cmake.index("besa_add_library") < src_cmake.index("besa_add_directory")
+    assert (out / "CMakeLists.txt").read_text() == project_cmake_before
+    assert "LANGUAGES NONE" in project_cmake_before
+    assert (out / "src/fortran").is_dir()
+    assert (out / "src/c").is_dir()
