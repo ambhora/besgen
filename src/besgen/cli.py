@@ -29,9 +29,16 @@ def main() -> None:
     default="none",
     show_default=True,
 )
-def new(name: str, directory: Path, template_name: str, ci_name: str) -> None:
+@click.option(
+    "--toolchains",
+    type=click.Choice(["none", "rocky10"]),
+    default="none",
+    show_default=True,
+    help="Optional managed compiler and Spack development environment (CMake only).",
+)
+def new(name: str, directory: Path, template_name: str, ci_name: str, toolchains: str) -> None:
     """Create project NAME in DIRECTORY."""
     try:
-        generate(directory, name, template_name, ci_name)
-    except FileExistsError as exc:
+        generate(directory, name, template_name, ci_name, toolchains=toolchains)
+    except (FileExistsError, ValueError) as exc:
         raise click.ClickException(str(exc)) from exc

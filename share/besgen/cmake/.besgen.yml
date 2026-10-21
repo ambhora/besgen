@@ -7,3 +7,4 @@ template: __TEMPLATE__
 languages:
   - cpp
 ci: __CI__
+toolchains: __TOOLCHAINS__

@@ -41,7 +41,18 @@ def _copy_tree(source, destination: Path, replacements: dict[str, str]) -> None:
             _write(target, text)
 
 
-def generate(directory: Path, name: str, template_name: str, ci_name: str = "none") -> None:
+def generate(
+    directory: Path,
+    name: str,
+    template_name: str,
+    ci_name: str = "none",
+    *,
+    toolchains: str = "none",
+) -> None:
+    if toolchains not in ("none", "rocky10"):
+        raise ValueError(f"Unknown toolchain profile: {toolchains}")
+    if toolchains != "none" and template_name != "cmake":
+        raise ValueError("Managed toolchains are currently supported for CMake projects only")
     if directory.exists() and any(directory.iterdir()):
         raise FileExistsError(f"{directory} exists and is not empty")
     directory.mkdir(parents=True, exist_ok=True)
@@ -55,6 +66,7 @@ def generate(directory: Path, name: str, template_name: str, ci_name: str = "non
         "__PROJECT_CLASS__": _project_class(name),
         "__TEMPLATE__": template_name,
         "__CI__": ci_name,
+        "__TOOLCHAINS__": toolchains,
     }
 
     share = files("besgen").joinpath("../../share/besgen").resolve()
@@ -76,7 +88,21 @@ def generate(directory: Path, name: str, template_name: str, ci_name: str = "non
             check=True,
         )
 
+    if toolchains == "rocky10":
+        _copy_tree(share / "toolchains" / "rocky10", directory, replacements)
+        dev_cli = directory / "dev" / "src" / f"{module}_dev" / "cli.py"
+        with dev_cli.open("a", encoding="utf-8") as stream:
+            stream.write(
+                "\n\nfrom .toolchain_commands import register as _register_toolchains\n"
+                "_register_toolchains(main)\n"
+            )
+
     if ci_name == "github":
-        _copy_tree(share / "ci" / "github", directory / ".github" / "workflows", replacements)
+        _copy_tree(share / "ci" / "github" / "common", directory / ".github" / "workflows", replacements)
+        if template_name == "cmake":
+            _copy_tree(share / "ci" / "github" / "cmake" / "workflows", directory / ".github" / "workflows", replacements)
+            _copy_tree(share / "ci" / "github" / "cmake" / "scripts", directory / ".github" / "scripts", replacements)
+            if toolchains == "rocky10":
+                _copy_tree(share / "ci" / "github" / "rocky10" / "workflows", directory / ".github" / "workflows", replacements)
     elif ci_name == "gitlab":
         _copy_tree(share / "ci" / "gitlab", directory, replacements)

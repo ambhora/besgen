@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 __PROJECT__ developers
+# SPDX-License-Identifier: Apache-2.0
+spack:
+  specs:
+    - __PROJECT__-dev@1.1+test
+  repos:
+    __DEV_MODULE__: ./share/spack
+  concretizer:
+    unify: true
+  packages:
+    all:
+      target: [x86_64_v3]
