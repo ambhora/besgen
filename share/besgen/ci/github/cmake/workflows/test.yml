@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 __PROJECT__ developers
+# SPDX-License-Identifier: Apache-2.0
+name: Test
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scripts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate CI shell scripts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          for script in .github/scripts/*.sh; do
+            bash -n "$script"
+            shellcheck "$script"
+          done
+
+  build:
+    needs: scripts
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v9.0.0
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build gcc g++ clang
+          uv tool install 'cmake>=4.3,<5'
+          echo "${HOME}/.local/bin" >> "$GITHUB_PATH"
+      - name: Install Catch2 v3
+        run: |
+          git clone --depth 1 --branch v3.9.1 https://github.com/catchorg/Catch2.git "${RUNNER_TEMP}/catch2"
+          cmake -S "${RUNNER_TEMP}/catch2" -B "${RUNNER_TEMP}/catch2-build" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${RUNNER_TEMP}/catch2-install" \
+            -DCATCH_BUILD_TESTING=OFF
+          cmake --build "${RUNNER_TEMP}/catch2-build" --parallel
+          cmake --install "${RUNNER_TEMP}/catch2-build"
+          echo "CMAKE_PREFIX_PATH=${RUNNER_TEMP}/catch2-install" >> "$GITHUB_ENV"
+      - name: Configure, build and test
+        env:
+          CC: ${{ matrix.compiler == 'gcc' && 'gcc' || 'clang' }}
+          CXX: ${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+        run: bash .github/scripts/build-test.sh

@@ -18,5 +18,5 @@ if(BUILD_SOURCE)
 endif()
 
 if(BUILD_TESTING)
-  add_subdirectory(test)
+  add_subdirectory(tests)
 endif()

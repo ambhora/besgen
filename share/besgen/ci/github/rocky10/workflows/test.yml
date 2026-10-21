@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2026 __PROJECT__ developers
+# SPDX-License-Identifier: Apache-2.0
+name: Test (managed Rocky/Spack)
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  infrastructure:
+    runs-on: ubuntu-24.04
+    container: ${{ vars.__MODULE_UPPER___BOOTSTRAP_IMAGE || 'rockylinux/rockylinux:10' }}
+    steps:
+      - name: Install checkout prerequisites
+        shell: sh
+        run: |
+          if [ ! -f /opt/__PROJECT__/.bootstrap-ready ]; then
+            dnf install -y bash git tar python3
+          fi
+          printf '%s\n' /usr/bin /bin /usr/sbin /sbin >> "$GITHUB_PATH"
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v9.0.0
+      - name: Verify generated configuration and developer commands
+        run: |
+          uv run --project dev --no-dev __PROJECT__-dev compiler sync --check
+          uv run --project dev --group dev pytest -q dev/tests
+      - name: Check CI scripts
+        run: |
+          dnf install -y epel-release ShellCheck
+          bash -n .github/scripts/build-test.sh
+          shellcheck .github/scripts/build-test.sh
+
+  build:
+    needs: infrastructure
+    runs-on: ubuntu-24.04
+    container: ${{ vars.__MODULE_UPPER___BOOTSTRAP_IMAGE || 'rockylinux/rockylinux:10' }}
+    env:
+      SPACK_DISABLE_LOCAL_CONFIG: '1'
+      GHCR_IMAGE: ghcr.io/${{ github.repository }}-spack-compilers-rocky10-v3
+    steps:
+      - name: Install checkout prerequisites
+        shell: sh
+        run: |
+          if [ ! -f /opt/__PROJECT__/.bootstrap-ready ]; then
+            dnf install -y bash git tar python3
+          fi
+          printf '%s\n' /usr/bin /bin /usr/sbin /sbin >> "$GITHUB_PATH"
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v9.0.0
+      - name: Bootstrap the pinned Spack repositories and system GCC
+        run: uv run --project dev --no-dev __PROJECT__-dev compiler --backend native bootstrap
+      - name: Select system GCC 14
+        run: uv run --project dev --no-dev __PROJECT__-dev compiler --backend native system-install GCC:14
+      - name: Install isolated GCC 14 development dependencies
+        run: uv run --project dev --no-dev __PROJECT__-dev deps --backend native install --compiler GCC:14
+      - name: Configure, build and test
+        run: |
+          export CC="${__MODULE_UPPER___CC}"
+          export CXX="${__MODULE_UPPER___CXX}"
+          bash .github/scripts/build-test.sh

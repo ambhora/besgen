@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2026 __PROJECT__ developers
+# SPDX-License-Identifier: Apache-2.0
+name: REUSE
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v9.0.0
+      - run: uvx --python 3.12 reuse lint

@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 __PROJECT__ developers
+# SPDX-License-Identifier: Apache-2.0
+---
+BasedOnStyle: LLVM
+Language: Cpp
+Standard: c++20
+IndentWidth: 2
+ColumnLimit: 100
+PointerAlignment: Left
+BreakBeforeBraces: Stroustrup
+SortIncludes: CaseSensitive
+...

@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 __PROJECT__ developers
+# SPDX-License-Identifier: Apache-2.0
+dev/.venv/
+dev/.spack-matrix/
+dev/.spack-env/
+dev/spack.lock
+# Compiler buildcache locks are intentionally checked in for reproducibility.
+build/
+docs/web/site/
+docs/web/build/
+.cache/
+.vscode/
+.clangd
+CMakeUserPresets.json
+__pycache__/
+.pytest_cache/
+*.pyc

@@ -6,6 +6,6 @@ spack:
   specs:
     - __PROJECT__-dev+test
   repos:
-    - ./share/spack
+    __DEV_MODULE__: ./share/spack
   concretizer:
     unify: true
