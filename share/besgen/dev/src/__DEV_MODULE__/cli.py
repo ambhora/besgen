@@ -31,13 +31,29 @@ def append_unique(path: Path, text: str) -> None:
         path.write_text(current.rstrip() + "\n\n" + text + "\n", encoding="utf-8")
 
 
-def add_spack_spec(spec: str) -> None:
-    path = ROOT / "dev" / "spack.yaml"
-    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    specs = data.setdefault("spack", {}).setdefault("specs", [])
-    if spec not in specs:
-        specs.append(spec)
-        path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+def add_spack_dependency(spec: str, *, kind: str = "NORMAL", when: str | None = None) -> None:
+    """Register dependencies in the bundle instead of adding extra Spack roots.
+
+    Each compiler-specific Spack matrix environment concretizes one bundle,
+    so direct roots outside that bundle would not be installed by CI.
+    """
+    if not spec.strip() or "\n" in spec:
+        raise click.UsageError("--spack must be a nonempty, single-line Spack spec")
+    package = ROOT / "dev/share/spack/packages/__PROJECT__-dev/package.py"
+    if not package.exists():
+        raise click.ClickException(f"Development Spack package missing: {package}")
+    types = {
+        "NORMAL": ("build", "link", "run"),
+        "BUILD": ("build", "run"),
+        "DEV": ("link", "run"),
+    }[kind]
+    clause = f"    depends_on({spec!r}, type={types!r}"
+    if when:
+        clause += f", when={when!r}"
+    clause += ")"
+    source = package.read_text(encoding="utf-8")
+    if clause not in source.splitlines():
+        package.write_text(source.rstrip() + "\n" + clause + "\n", encoding="utf-8")
 
 
 def register_source_language(name: str) -> None:
@@ -153,7 +169,9 @@ def dependency() -> None:
 @click.option("--cargo")
 @click.option("--spack", required=True, help="Spack spec; preserved verbatim.")
 @click.option("--version", help="Build-system dependency version constraint.")
-@click.option("--condition", help="Project feature condition.")
+@click.option("--condition", help="BESA project feature condition.")
+@click.option("--kind", type=click.Choice(["normal", "build", "dev"], case_sensitive=False), default="normal", show_default=True)
+@click.option("--spack-when", help="Optional condition for the Spack bundle dependency, e.g. +test.")
 def dependency_add(
     cmake: str | None,
     python_name: str | None,
@@ -161,6 +179,8 @@ def dependency_add(
     spack: str,
     version: str | None,
     condition: str | None,
+    kind: str,
+    spack_when: str | None,
 ) -> None:
     data = config()
     choices = [("cmake", cmake), ("python", python_name), ("cargo", cargo)]
@@ -173,7 +193,8 @@ def dependency_add(
     if backend != expected:
         raise click.UsageError(f"{data['template']} projects require --{expected}")
 
-    add_spack_spec(spack)
+    if backend != "cmake":
+        raise click.ClickException("dependency TOML editing for this template is not implemented yet")
 
     if backend == "cmake":
         args = [f"NAME {name}"]
@@ -181,11 +202,9 @@ def dependency_add(
             args.append(f'VERSION "{version}"')
         if condition:
             args.append(f'CONDITION "{condition}"')
-        append_unique(
-            ROOT / "cmake/external.cmake",
-            "besa_dependency_add(\n  " + "\n  ".join(args) + "\n)",
-        )
-    else:
-        raise click.ClickException(
-            "dependency TOML editing for this template is not implemented yet"
-        )
+        args.append(f"KIND {kind.upper()}")
+        add_spack_dependency(spack, kind=kind.upper(), when=spack_when)
+        declaration = "besa_dependency_add(\n  " + "\n  ".join(args) + "\n)"
+        if spack_when == "+test":
+            declaration = "if(BUILD_TESTING)\n  " + declaration.replace("\n", "\n  ") + "\nendif()"
+        append_unique(ROOT / "cmake/external.cmake", declaration)
