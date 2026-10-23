@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-FileCopyrightText: 2026 __PROJECT__ developers
 // --------------------------------------------------------------------------------------------------
-#ifndef TEST__MODULE_UPPER___KERNELS_HH
-#define TEST__MODULE_UPPER___KERNELS_HH
+#ifndef __MODULE_UPPER___HPP
+#define __MODULE_UPPER___HPP
 
-namespace __MODULE__::test {
-int smoke();
+#include <string>
+
+namespace __MODULE__ {
+[[nodiscard]] std::string greet(std::string const& name);
 }
 
-#endif // TEST__MODULE_UPPER___KERNELS_HH
+#endif // __MODULE_UPPER___HPP

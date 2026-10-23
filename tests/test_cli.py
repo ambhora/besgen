@@ -43,7 +43,7 @@ def test_directory_after_option(tmp_path: Path):
     assert 'besa_add_directory(LIBRARY libtestfoo ROOT "${CMAKE_CURRENT_SOURCE_DIR}/cpp" TYPE cpp)' in (out / "tests/common/CMakeLists.txt").read_text()
     assert "find_package(Catch2" not in test_cmake
     assert "besa_dependency_add(NAME Catch2 VERSION 3 KIND DEV)" in (out / "cmake/external.cmake").read_text()
-    assert (out / "tests/common/cpp/include/testfoo/kernels.hh").is_file()
+    assert (out / "tests/common/cpp/include/testfoo/kernels.hpp").is_file()
     assert (out / "tests/common/cpp/lib/testfoo/kernels.cpp").is_file()
     assert "SOURCES " not in test_cmake
     assert "PUBLIC_INCLUDE_DIRECTORIES" not in test_cmake
@@ -52,8 +52,8 @@ def test_directory_after_option(tmp_path: Path):
     assert "find_package(besa CONFIG REQUIRED)" in cmake
     assert "cmake_minimum_required(VERSION 4.3)" in cmake
 
-    assert (out / "src/cpp/include/foo/foo.hh").is_file()
-    assert "#ifndef FOO_HH" in (out / "src/cpp/include/foo/foo.hh").read_text()
+    assert (out / "src/cpp/include/foo/foo.hpp").is_file()
+    assert "#ifndef FOO_HPP" in (out / "src/cpp/include/foo/foo.hpp").read_text()
     assert (out / "src/cpp/lib/foo/foo.cpp").is_file()
     assert (out / "tests/unit/foo.t.cpp").is_file()
     assert not (out / "src/cpp/module/readme.md").exists()
